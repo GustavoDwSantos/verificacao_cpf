@@ -1,3 +1,4 @@
+from random import randint
 """
 Validaçao do CPF
 
@@ -27,29 +28,59 @@ Etapa 3: DV1x10 + DV2 = 6x10 + 8 = 68, que é o número procurado.
 
 
 
-def calculo_dv1(cpf):
+def _calculo_dv1(cpf):
+    "Calcula o primeiro digito verificador do cpf"
     resultado = 0
     for i, digito in enumerate (cpf[::-1]):
         resultado += int(digito) * (i+2)
     resultado = resultado *10 % 11 
-    return resultado if resultado < 10 else 0
+    return str(resultado) if resultado < 10 else "0"
 
-def calculo_dv2(cpf):
+def _calculo_dv2(cpf):
+    "calcula o segundo digito verificador do cpf"
     resultado = 0 
     for i, digito in enumerate(cpf[::-1]):
         resultado += int(digito) * (i+3)
-    resultado = (resultado + calculo_dv1(cpf) * 2) * 10 % 11
-    return resultado if resultado < 10 else 0
+    resultado = (resultado + int(_calculo_dv1(cpf)) * 2) * 10 % 11
+    return str(resultado) if resultado < 10 else "0"
 
-def calculo_dv(cpf):
-    return calculo_dv1(cpf) * 10 + calculo_dv2(cpf)
+def _calculo_dv(cpf):
+    "Retorna o Digito verificador de um cpf"
+    return f"{_calculo_dv1(cpf)}{_calculo_dv2(cpf)}"
 
 def valida_cpf(cpf_completo):
+    cpf_completo = limpar_mascara(cpf_completo)
+    dv = _calculo_dv(cpf_completo[:-2])
+    return dv == cpf_completo[-2:]
 
-    dv = calculo_dv(cpf_completo[:-2])
-    return dv == int(cpf_completo[-2:])
+def limpar_mascara(cpf):
+    cpf_sem_mascara = []
+    for digito in cpf:
+        if digito.isdigit():
+            cpf_sem_mascara.append(digito)
+    return ''.join(cpf_sem_mascara)
 
+def tamanho_cpf(cpf):
+    return len(limpar_mascara(cpf)) == 11
 
+def _gerador_digitos():
+    cpf = []
+    while len(cpf) < 9:
+        cpf.append(str(randint(0,9)))
+    return "".join(cpf)
 
+def adiciona_dv(cpf_sem_dv):
+    return f"{cpf_sem_dv}{_calculo_dv(cpf_sem_dv)}"
 
+def gerador_cpf_aleatorio():
+    return adiciona_dv(_gerador_digitos())
 
+def adicionar_mascara(cpf):
+
+    return f"{cpf[:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:11]}"
+
+def lista_com_cpf():
+    cpfs=[]
+    while len(cpfs)<10:
+        cpfs.append(adicionar_mascara(gerador_cpf_aleatorio()))
+    return cpfs
