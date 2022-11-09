@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "verificação-cpf"
+version = "0.1.0"
+description = "Projeto com objetivo de analisar se um cpf é valido ou não e com isso gerar cpfs validos e listas com cpfs"
+authors = ["gustavoDwsantos <gustavos200116@gmail.com>"]
+readme = "README.md"
+packages = [{include = "verificação_cpf"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
