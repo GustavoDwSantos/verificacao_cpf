@@ -53,6 +53,8 @@ def gerar_cpf_mascara(mascara):
 def retorno_cpf_mascara(box_mascara, cpf):
     box_mascara.config(text= adicionar_mascara(cpf.get()))
 
+def retorno_dv(cpf):
+    cpf.set(f"{adicionar_mascara(adiciona_dv(cpf.get()))}")
 
 def cmd(box_cpf,mascara):
     box_cpf.config(text = gerar_cpf_mascara(mascara))
@@ -73,7 +75,7 @@ def menu():
 
     
     botao_mascara= tk.Button(root,text="Acrescentar mascara",command=clique_mascara)
-    botao_mascara.place(x=226,y=    50)
+    botao_mascara.place(x=226,y=50)
 
     botao_dv = tk.Button(root, text= "Acrescentar digito Verificador", command=clique_dv)
     botao_dv.place(x=206,y=150)
@@ -132,6 +134,15 @@ def verificar_dv():
     root.resizable(0,0)
     root.title("Verificador de CPF")
     root.geometry(f"{largura_janela}x{altura_janela}")
+
+    cpf = tk.StringVar()
+
+    caixa_texto = tk.Entry(root, textvariable=cpf)
+    caixa_texto.place(x=138,y=50)  
+
+    botao_verificar_dv = tk.Button(root,text="Gerar Digito Verificador",command=partial(retorno_dv,cpf=cpf) )
+    botao_verificar_dv.place(x=135,y=110)
+
     botao_voltar = tk.Button(root, text= "Voltar", command= clique_voltar_menu )
     botao_voltar.place(x=183,y=200)
 

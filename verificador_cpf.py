@@ -70,6 +70,7 @@ def _gerador_digitos():
     return "".join(cpf)
 
 def adiciona_dv(cpf_sem_dv):
+    cpf_sem_dv = limpar_mascara(cpf_sem_dv)
     return f"{cpf_sem_dv}{_calculo_dv(cpf_sem_dv)}"
 
 def gerador_cpf_aleatorio():
